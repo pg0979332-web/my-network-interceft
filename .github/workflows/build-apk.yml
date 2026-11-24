@@ -14,7 +14,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with: { channel: stable, flutter-version: '3.44.x', cache: true }
       - run: flutter pub get
-      - run: flutter build apk --release --split-per-abi
+      - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
           name: proxypin-apk
