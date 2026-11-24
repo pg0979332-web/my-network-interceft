@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:proxypin/network/components/intercept_queue.dart';
+import 'package:proxypin/ui/mobile/burp/burp_state.dart';
 import 'package:proxypin/network/components/interceptor.dart';
 import 'package:proxypin/network/components/manager/environment_manager.dart';
 import 'package:proxypin/network/components/manager/request_breakpoint_manager.dart';
@@ -94,7 +95,9 @@ class RequestBreakpointInterceptor extends Interceptor {
 
     var url = request.requestUrl;
     // CONNECT tunnels are not real requests; never pause them
-    final bool all = requestBreakpointManager.interceptAll && request.method != HttpMethod.connect;
+    final bool all = requestBreakpointManager.interceptAll &&
+        request.method != HttpMethod.connect &&
+        BurpState.instance.shouldIntercept(request);
     for (var rule in (all ? <RequestBreakpointRule>[_allRule] : requestBreakpointManager.list)) {
       if ((all || rule.match(url, method: request.method)) && rule.interceptRequest) {
         Completer<HttpRequest?> completer = Completer();
@@ -145,7 +148,9 @@ class RequestBreakpointInterceptor extends Interceptor {
     if (!requestBreakpointManager.enabled) return response;
 
     var url = request.requestUrl;
-    final bool all = requestBreakpointManager.interceptAllResponse && request.method != HttpMethod.connect;
+    final bool all = requestBreakpointManager.interceptAllResponse &&
+        request.method != HttpMethod.connect &&
+        BurpState.instance.shouldIntercept(request);
     for (var rule in (all ? <RequestBreakpointRule>[_allRule] : requestBreakpointManager.list)) {
       if ((all || rule.match(url, method: request.method)) && rule.interceptResponse) {
         Completer<HttpResponse?> completer = Completer();

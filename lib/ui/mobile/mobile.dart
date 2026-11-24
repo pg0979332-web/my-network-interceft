@@ -27,6 +27,7 @@ import 'package:proxypin/native/vpn.dart';
 import 'package:proxypin/network/bin/configuration.dart';
 import 'package:proxypin/network/bin/listener.dart';
 import 'package:proxypin/network/bin/server.dart';
+import 'package:proxypin/ui/mobile/burp/burp_state.dart';
 import 'package:proxypin/network/channel/channel.dart';
 import 'package:proxypin/network/channel/channel_context.dart';
 import 'package:proxypin/network/http/http.dart';
@@ -128,6 +129,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
     AppLifecycleBinding.instance.addListener(this);
     proxyServer = ProxyServer(widget.configuration);
     proxyServer.addListener(this);
+    proxyServer.addListener(BurpState.instance.listener);
     proxyServer.start();
     // 启动历史记录任务（单例；原由 ConfigPage 触发，配置页移除后在这里保证初始化）
     HistoryTask.ensureInstance(widget.configuration, MobileApp.container);

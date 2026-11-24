@@ -26,7 +26,7 @@ import 'package:proxypin/network/components/manager/request_rewrite_manager.dart
 import 'package:proxypin/network/http/http.dart';
 import 'package:proxypin/network/util/system_proxy.dart';
 import 'package:proxypin/ui/mobile/setting/inbound_proxy.dart';
-import 'package:proxypin/ui/mobile/debug/intercept_page.dart';
+import 'package:proxypin/ui/mobile/burp/burp_page.dart';
 import 'package:proxypin/network/components/intercept_queue.dart';
 import 'package:proxypin/storage/histories.dart';
 import 'package:proxypin/ui/mobile/menu/weak_network_tile.dart';
@@ -293,14 +293,14 @@ class _SettingPage extends StatelessWidget {
                         })),
                 Divider(height: 0, thickness: 0.3, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
                 ListTile(
-                    title: const Text('Intercept (Burp style)'),
+                    title: const Text('Burp-style Proxy'),
                     trailing: ValueListenableBuilder<List<PendingIntercept>>(
                         valueListenable: InterceptQueue.instance.items,
                         builder: (_, list, __) => Row(mainAxisSize: MainAxisSize.min, children: [
                               if (list.isNotEmpty) Text('${list.length}', style: const TextStyle(color: Colors.red)),
                               const Icon(Icons.keyboard_arrow_right)
                             ])),
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const InterceptPage()))),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const BurpPage()))),
                 Divider(height: 0, thickness: 0.3, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
                 ListTile(
                     title: const Text('Proxy Generator (user/pass)'),
